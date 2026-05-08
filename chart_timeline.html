@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Growth — From 800 to 60,000</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{
+    font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+    background:transparent;
+    color:#1a1a1a;
+    padding:24px 20px;
+    line-height:1.5
+  }
+  @media(prefers-color-scheme:dark){body{color:#e0e0e0}}
+
+  .timeline{position:relative;padding:0;max-width:600px;margin:0 auto}
+  .tl-line{
+    position:absolute;left:54px;top:0;bottom:0;width:1.5px;
+    background:linear-gradient(to bottom,transparent,#ccc 4%,#ccc 96%,transparent)
+  }
+  @media(prefers-color-scheme:dark){.tl-line{background:linear-gradient(to bottom,transparent,#444 4%,#444 96%,transparent)}}
+
+  .node{
+    display:flex;gap:14px;align-items:flex-start;margin-bottom:24px;
+    opacity:0;transform:translateY(16px);
+    transition:opacity 0.5s ease,transform 0.5s ease
+  }
+  .node.visible{opacity:1;transform:translateY(0)}
+
+  .yr{
+    flex-shrink:0;width:40px;text-align:right;
+    font-size:13px;font-weight:600;
+    color:#888;padding-top:8px;
+    letter-spacing:-0.02em
+  }
+  @media(prefers-color-scheme:dark){.yr{color:#999}}
+
+  .dot-wrap{
+    flex-shrink:0;width:28px;display:flex;justify-content:center;
+    padding-top:10px;position:relative;z-index:1
+  }
+  .dot{
+    width:10px;height:10px;border-radius:50%;
+    border:2.5px solid #ccc;background:#fff;
+    transition:transform 0.3s ease
+  }
+  @media(prefers-color-scheme:dark){.dot{background:#1a1a1a;border-color:#555}}
+  .node.visible .dot{transform:scale(1.15)}
+  .dot.kove{border-color:#1D9E75;background:#1D9E75}
+  .dot.zx{border-color:#D85A30;background:#D85A30}
+  .dot.target{border-color:#378ADD;background:transparent;border-style:dashed}
+  .dot.brk{border-color:#aaa;background:#fff;width:8px;height:8px}
+  @media(prefers-color-scheme:dark){.dot.brk{background:#1a1a1a;border-color:#666}}
+
+  .card{
+    flex:1;
+    background:#f7f7f5;
+    border-radius:10px;
+    padding:12px 16px;
+    transition:box-shadow 0.3s ease
+  }
+  @media(prefers-color-scheme:dark){.card{background:#262626}}
+  .node.visible .card{box-shadow:0 1px 4px rgba(0,0,0,0.04)}
+  @media(prefers-color-scheme:dark){.node.visible .card{box-shadow:0 1px 4px rgba(0,0,0,0.2)}}
+
+  .card-num{font-size:28px;font-weight:700;line-height:1.15;letter-spacing:-0.03em}
+  .card-num .unit{font-size:14px;font-weight:400;color:#999;margin-left:3px}
+  @media(prefers-color-scheme:dark){.card-num .unit{color:#777}}
+
+  .card-sub{font-size:12.5px;color:#777;margin-top:3px;line-height:1.5}
+  @media(prefers-color-scheme:dark){.card-sub{color:#aaa}}
+
+  .tags{margin-top:6px;display:flex;flex-wrap:wrap;gap:4px}
+  .tag{
+    display:inline-block;font-size:11px;
+    padding:2px 9px;border-radius:6px;
+    font-weight:600;letter-spacing:0.01em
+  }
+  .tag-product{background:#FEF0E6;color:#993C1D}
+  .tag-event{background:#E6F5EE;color:#0F6E56}
+  .tag-milestone{background:#FCE8F0;color:#993556}
+  @media(prefers-color-scheme:dark){
+    .tag-product{background:#3D1A0A;color:#F0997B}
+    .tag-event{background:#0A2E24;color:#5DCAA5}
+    .tag-milestone{background:#3A1224;color:#ED93B1}
+  }
+
+  .bar-track{
+    height:4px;background:#e8e8e5;border-radius:2px;
+    margin-top:8px;overflow:hidden
+  }
+  @media(prefers-color-scheme:dark){.bar-track{background:#3a3a3a}}
+  .bar-fill{
+    height:100%;border-radius:2px;
+    width:0;transition:width 0.8s cubic-bezier(0.25,0.46,0.45,0.94)
+  }
+  .node.visible .bar-fill{width:var(--w)}
+  .bar-kove{background:#1D9E75}
+  .bar-zx{background:#D85A30}
+  .bar-target{background:#378ADD}
+
+  .divider-node{
+    display:flex;gap:14px;align-items:center;margin-bottom:24px;
+    opacity:0;transform:translateY(16px);
+    transition:opacity 0.5s ease,transform 0.5s ease
+  }
+  .divider-node.visible{opacity:1;transform:translateY(0)}
+  .divider-text{
+    flex:1;font-size:12.5px;color:#aaa;
+    border-top:1px dashed #ccc;
+    padding-top:8px;font-style:italic
+  }
+  @media(prefers-color-scheme:dark){.divider-text{color:#777;border-color:#555}}
+
+  @media(max-width:480px){
+    .yr{width:34px;font-size:12px}
+    .card-num{font-size:24px}
+    .tl-line{left:48px}
+    body{padding:16px 10px}
+  }
+</style>
+</head>
+<body>
+
+<div class="timeline">
+<div class="tl-line"></div>
+
+<div class="node" data-delay="0">
+<span class="yr">2018</span>
+<div class="dot-wrap"><div class="dot kove"></div></div>
+<div class="card">
+  <div class="card-num">800<span class="unit">units</span></div>
+  <div class="card-sub">First year. 20 employees. Still profitable.</div>
+  <div class="tags"><span class="tag tag-product">500X ADV launched</span></div>
+  <div class="bar-track"><div class="bar-fill bar-kove" style="--w:1.3%"></div></div>
+</div>
+</div>
+
+<div class="node" data-delay="100">
+<span class="yr">2019</span>
+<div class="dot-wrap"><div class="dot kove"></div></div>
+<div class="card">
+  <div class="card-num">3,000<span class="unit">units</span></div>
+  <div class="card-sub">3.75× year-on-year. Dealer network expanding.</div>
+  <div class="bar-track"><div class="bar-fill bar-kove" style="--w:5%"></div></div>
+</div>
+</div>
+
+<div class="node" data-delay="200">
+<span class="yr">2020</span>
+<div class="dot-wrap"><div class="dot kove"></div></div>
+<div class="card">
+  <div class="card-num">~12,000<span class="unit">units</span></div>
+  <div class="card-sub">Entry-level segment unlocked. 4× growth.</div>
+  <div class="tags"><span class="tag tag-product">321R street bike</span></div>
+  <div class="bar-track"><div class="bar-fill bar-kove" style="--w:20%"></div></div>
+</div>
+</div>
+
+<div class="node" data-delay="300">
+<span class="yr">2021</span>
+<div class="dot-wrap"><div class="dot kove"></div></div>
+<div class="card">
+  <div class="card-num">~20,000<span class="unit">units</span></div>
+  <div class="card-sub">Sport bike segment entered. First in-house 4-cyl engine revealed.</div>
+  <div class="tags"><span class="tag tag-product">321RR sport bike</span></div>
+  <div class="bar-track"><div class="bar-fill bar-kove" style="--w:33%"></div></div>
+</div>
+</div>
+
+<div class="node" data-delay="400">
+<span class="yr">2022</span>
+<div class="dot-wrap"><div class="dot kove"></div></div>
+<div class="card">
+  <div class="card-num">~28,000<span class="unit">units</span></div>
+  <div class="card-sub">Peak Kove era. Revenue approaching ¥700M.</div>
+  <div class="tags">
+    <span class="tag tag-product">400RR 4-cylinder</span>
+    <span class="tag tag-event">China Racing Team</span>
+  </div>
+  <div class="bar-track"><div class="bar-fill bar-kove" style="--w:47%"></div></div>
+</div>
+</div>
+
+<div class="node" data-delay="500">
+<span class="yr">2023</span>
+<div class="dot-wrap"><div class="dot kove"></div></div>
+<div class="card">
+  <div class="card-num">~30,000<span class="unit">units</span></div>
+  <div class="card-sub">Top domestic sport-motorcycle brand.</div>
+  <div class="tags">
+    <span class="tag tag-product">450RR launched</span>
+    <span class="tag tag-event">Dakar Rally debut</span>
+  </div>
+  <div class="bar-track"><div class="bar-fill bar-kove" style="--w:50%"></div></div>
+</div>
+</div>
+
+<div class="divider-node" data-delay="600">
+<span class="yr" style="color:#bbb">2024</span>
+<div class="dot-wrap"><div class="dot brk"></div></div>
+<div class="divider-text">Left Kove. Founded ZXMOTO. Started from zero — again.</div>
+</div>
+
+<div class="node" data-delay="700">
+<span class="yr">2025</span>
+<div class="dot-wrap"><div class="dot zx"></div></div>
+<div class="card">
+  <div class="card-num">~22,000<span class="unit">units</span></div>
+  <div class="card-sub">First full year. ¥750M output. ¥70M R&D spend.</div>
+  <div class="tags"><span class="tag tag-product">500RR + 820RR</span></div>
+  <div class="bar-track"><div class="bar-fill bar-zx" style="--w:37%"></div></div>
+</div>
+</div>
+
+<div class="node" data-delay="800">
+<span class="yr">2026</span>
+<div class="dot-wrap"><div class="dot target"></div></div>
+<div class="card">
+  <div class="card-num">60,000<span class="unit">target</span></div>
+  <div class="card-sub">¥1.8B production target. 5,543 orders in first 100 hours after WSBK win.</div>
+  <div class="tags"><span class="tag tag-milestone">WSBK Portimão double win</span></div>
+  <div class="bar-track"><div class="bar-fill bar-target" style="--w:100%"></div></div>
+</div>
+</div>
+
+</div>
+
+<script>
+(function(){
+  var observer = new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      if(entry.isIntersecting){
+        var delay = parseInt(entry.target.getAttribute('data-delay')) || 0;
+        setTimeout(function(){
+          entry.target.classList.add('visible');
+        }, delay);
+        observer.unobserve(entry.target);
+      }
+    });
+  },{threshold:0.15});
+
+  document.querySelectorAll('.node, .divider-node').forEach(function(el){
+    observer.observe(el);
+  });
+})();
+</script>
+</body>
+</html>
