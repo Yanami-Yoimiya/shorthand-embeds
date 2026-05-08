@@ -45,6 +45,27 @@
   var labels = ['2018','2019','2020','2021','2022','2023'];
   var koveData = [800, 3000, 12000, 20000, 28000, 30000];
 
+  var yearLabels = {
+    id: 'yearLabels',
+    afterDraw: function(chart) {
+      var ctx = chart.ctx;
+      var xScale = chart.scales.x;
+      var yScale = chart.scales.y;
+      var years = ['2018','2019','2020','2021','2022','2023'];
+      var yBase = yScale.getPixelForValue(0);
+      ctx.save();
+      ctx.font = '600 13px -apple-system, BlinkMacSystemFont, sans-serif';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'top';
+      ctx.fillStyle = '#444444';
+      years.forEach(function(yr) {
+        var xPos = xScale.getPixelForValue(yr);
+        ctx.fillText(yr, xPos, yBase + 10);
+      });
+      ctx.restore();
+    }
+  };
+
   new Chart(document.getElementById('salesChart'), {
     type: 'bar',
     data: {
@@ -62,15 +83,12 @@
     options: {
       responsive: true,
       maintainAspectRatio: false,
-      layout: { padding: { top: 30, bottom: 16 } },
+      layout: { padding: { top: 30, bottom: 40 } },
       scales: {
         x: {
           grid: { display: false },
-          ticks: {
-            color: isDark ? 'rgba(255,255,255,0.7)' : 'rgba(0,0,0,0.6)',
-            font: { size: 13, weight: '600' },
-            padding: 8
-          }
+          ticks: { display: false },
+          border: { display: false }
         },
         y: {
           beginAtZero: true,
@@ -97,7 +115,7 @@
         }
       }
     },
-    plugins: []
+    plugins: [yearLabels]
   });
 })();
 </script>
